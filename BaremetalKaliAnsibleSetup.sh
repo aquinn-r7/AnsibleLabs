@@ -1,4 +1,4 @@
-!#/bin/bash
+#!/bin/bash
 
 #Perform System Updates
 apt-get update
