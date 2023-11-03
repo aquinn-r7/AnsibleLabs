@@ -1,0 +1,33 @@
+#!/bin/bash
+
+#For use of Ansible with an AWS deployed testing server.  Three arguments are required: 1 - AWS FQDN or IP (If using a nonstandard SSH port, append it as follows X.X.X.X:<port>), 2 - Ansible host name for test server, 3 - Full path to SSH private key
+
+#Perform System Updates
+apt-get update
+apt-get full-upgrade -y
+
+#Install Ansible
+apt-add-repository -ppa:ansible/ansible
+apt-get update
+apt-get install -y ansible
+
+#Obtain VM Information
+aws_host=$1
+ssh_key=$3
+
+#Make hosts and add initial server
+mkdir /etc/ansible
+chmod 600 $ssh_key
+#Determine if argument was provided for ansible host name
+if [ -z "$2" ]; then
+    # Set a default value if no argument is provided
+    ansible_host="testing"
+else
+    # Use the provided argument
+    ansible_host="$2"
+fi
+echo -e "[$ansible_host]\n$aws_host ansible_ssh_private_key_file=$ssh_key" > /etc/ansible/hosts
+
+mkdir /opt/aws_ansible
+cd /opt/aws_ansible
+touch ansible.yml
