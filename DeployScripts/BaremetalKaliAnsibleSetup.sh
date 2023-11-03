@@ -1,5 +1,7 @@
 #!/bin/bash
 
+#This Script is for a full Ansible install using Vagrant and Virtualbox on Baremetal Kali.  
+
 #Perform System Updates
 apt-get update
 apt-get full-upgrade -y
