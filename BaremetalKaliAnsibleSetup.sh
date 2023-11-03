@@ -50,5 +50,6 @@ fi
 echo -e "[$ansible_host]\n$vagrant_host ansible_ssh_private_key_file=$ssh_key" > /etc/ansible/hosts
 
 #Add Ansible Playbook to VagrantFile
-echo -e '\nconfig.vm.provision "ansible" do |ansible|\n  ansible.playbook = "ansible.yml"\nend'  >> Vagrantfile
+head -n -1 Vagrantfile > Vagrantfile2 && mv Vagrantfile2 Vagrantfile
+echo -e '\nconfig.vm.provision "ansible" do |ansible|\n  ansible.playbook = "ansible.yml"\nend\nend'  >> Vagrantfile
 touch ansible.yml
